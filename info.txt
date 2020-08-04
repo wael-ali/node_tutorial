@@ -1,0 +1,66 @@
+42- --- NPM scripts:
+
+we can define some custom scripts that help us run some tasks. using the npm scripts but how:
+
+1- go to the project dir and run the command:
+  $ npm init
+   you will be prompt to answer questions, answer it or press enter to get the default values.
+   this will create the package.json file = configration file.
+   in this file there is a scripts section use it to create our own scripts.
+   EX:
+   add the key name "start": "node app.js", start is a spcial key used by node it self
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "some_key": "comand to be excuted",
+    "start": "node app.js",
+    "start-server": "node app.js"
+  },
+  how to use that:
+  in the terminal write the following formula:
+  if the key is special like start as follows
+    $ npm key_in_scripts_section
+    $ npm start
+  if the key is not special special like start-server (custom key) as follows
+    $ npm run custom_key
+    $ npm run start-server
+
+43- --- Installing 3rd Party Packages
+
+use npm to install 3rd Packages:
+$ npm install package_name --save (istall it as production dependency in this project)
+$ npm install package_name --save-dev (istall it as development dependency in this project)
+$ npm install package_name -g (istall it globaly can be used every where on your maschine)
+
+the first time you install a package:
+1- this add the package to the package.json as entry.
+2- load the package and its dependency in node_module folder in the project root.
+3- create package_lock.json
+
+try it by installing: nodemon
+
+45- --- Using Nodemon for Autorestart
+  simply in the sicripts section in packges.json in start key use the nodemon command instead node:
+
+  "scripts": {
+    "start": "nodemon app.js",
+  },
+
+  if you run the command in the terminal:
+  $ nodemon app.js
+  it would not work because the terminal search for the command globaly, 
+  but we installed it localy for this project
+
+47- --- Understanding different Error Types
+
+1- Syntax Error:
+2- Runtime Error:
+3- Logical Errors:
+ no error message but the app does not work the way it should
+
+48- --- Finding & Fixing Syntax Errors:
+49- --- Dealing with runtime Error:
+50- --- Dealing with Logical Error:
+
+
+
+
