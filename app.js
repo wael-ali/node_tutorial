@@ -33,6 +33,12 @@ app.use(adminData.router);
 app.use(shopRoutes);
 // NOT FOUND PAGE
 app.use((req, res, next) => {
-  return res.status(404).render('404', { pageTitle: 'Not Found'});
+  return res.status(404).render(
+    '404', 
+    {
+       pageTitle: 'Not Found',
+       path: ''
+    }
+  );
 });
 app.listen(3000);
