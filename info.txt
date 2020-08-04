@@ -61,6 +61,10 @@ try it by installing: nodemon
 49- --- Dealing with runtime Error:
 50- --- Dealing with Logical Error:
 
+90- -- working with ejs
+ejs does not suport layout
+
+
 
 
 
