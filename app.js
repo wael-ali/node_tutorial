@@ -22,23 +22,16 @@ app.set('views', 'views');
 // app.set('view engine', 'hbs');
 // app.set('view engine', 'pug');
 
-const adminData = require('./routes/admin');
+const adminRoutes = require('./routes/admin');
 const shopRoutes = require('./routes/shop');
+const errorRoutes = require('./routes/error');
 // template engine 
 // All Requests Middleware
 app.use(bodyParser.urlencoded({extended: false}));
 app.use(express.static(path.join(__dirname, 'public')));
 // Other Middleware
-app.use(adminData.router);
+app.use(adminRoutes);
 app.use(shopRoutes);
 // NOT FOUND PAGE
-app.use((req, res, next) => {
-  return res.status(404).render(
-    '404', 
-    {
-       pageTitle: 'Not Found',
-       path: ''
-    }
-  );
-});
+app.use(errorRoutes);
 app.listen(3000);
