@@ -5,7 +5,7 @@ exports.getProducts = (req, res, next) => {
     res.render('shop/products-list', { 
       prods: products, 
       pageTitle: 'All Products',
-      path: '/',
+      path: '/products',
     });
   });
 };
@@ -15,7 +15,7 @@ exports.getIndex = (req, res, next) => {
     res.render('shop/index', {
       prods: products,
       pageTitle: 'Shop index',
-      path: '/products',
+      path: '/',
     });
   });
 };
@@ -31,5 +31,12 @@ exports.getCheckout = (req, res, next) => {
       prods: [],
       pageTitle: 'Your Checkout',
       path: '/checkout',
+    });
+};
+exports.getOrders = (req, res, next) => {
+    res.render('shop/orders', {
+      prods: [],
+      pageTitle: 'Your Orders',
+      path: '/orders',
     });
 };
