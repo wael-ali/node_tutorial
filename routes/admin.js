@@ -8,6 +8,7 @@ const router = express.Router();
 
 router.use('/admin/add-product', adminController.getAddProduct);
 router.get('/admin/edit-product/:productId', adminController.getEditProduct);
+router.post('/admin/edit-product', );
 router.post('/product',adminController.postAddProduct);
 router.get('/admin/products', adminController.getProducts);
 
