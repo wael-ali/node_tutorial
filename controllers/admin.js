@@ -18,17 +18,25 @@ exports.getEditProduct = (req, res, next) => {
     if (!editMode){
         return res.redirect('/');
     }
-    res.render(
-        'admin/edit-product',
-        {
-            pageTitle: 'Edit Product',
-            path: '/admin/edit-product',
-            formsCSS: true,
-            activeAddProduct: true,
-            productCSS: true,
-            editing: editMode
+
+    const prodId = req.params.productId;
+    Product.findById(prodId, product => {
+        if (!product){
+            return res.redirect('/');
         }
-    );
+        res.render(
+            'admin/edit-product',
+            {
+                pageTitle: 'Edit Product',
+                path: '/admin/edit-product',
+                formsCSS: true,
+                activeAddProduct: true,
+                productCSS: true,
+                editing: editMode,
+                product: product
+            }
+        );
+    })
 };
 
 exports.postAddProduct = (req, res, next) => {
