@@ -8,7 +8,7 @@ const shopRoutes = require('./routes/shop');
 const errorRoutes = require('./routes/error');
 
 const rootDir = require('./util/path');
-// const db = require('./util/database');
+const sequelize = require('./util/database');
 
 
 const app = express();
@@ -25,4 +25,15 @@ app.use(adminRoutes);
 app.use(shopRoutes);
 // NOT FOUND PAGE
 app.use(errorRoutes);
-app.listen(3000);
+
+// to automatically synchronize all models
+sequelize
+    .sync()
+    .then((result) => {
+        // console.log(result);
+        app.listen(3000);
+    })
+    .catch(err => {
+        console.log(err);
+    })
+;
