@@ -9,6 +9,8 @@ const errorRoutes = require('./routes/error');
 
 const rootDir = require('./util/path');
 const sequelize = require('./util/database');
+const Product = require('./models/product');
+const User = require('./models/user');
 
 
 const app = express();
@@ -25,10 +27,12 @@ app.use(adminRoutes);
 app.use(shopRoutes);
 // NOT FOUND PAGE
 app.use(errorRoutes);
-
+// Manage Relations between Models.
+Product.belongsTo(User, {constraints: true, onDelete: 'CASCADE'});
+User.hasMany(Product)
 // to automatically synchronize all models
 sequelize
-    .sync()
+    .sync({ force: true})
     .then((result) => {
         // console.log(result);
         app.listen(3000);
