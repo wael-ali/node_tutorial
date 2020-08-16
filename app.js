@@ -11,6 +11,8 @@ const rootDir = require('./util/path');
 const sequelize = require('./util/database');
 const Product = require('./models/product');
 const User = require('./models/user');
+const Cart = require('./models/cart');
+const CartItem = require('./models/cart-item');
 
 
 const app = express();
@@ -41,6 +43,14 @@ app.use(errorRoutes);
 // Manage Relations between Models.
 Product.belongsTo(User, {constraints: true, onDelete: 'CASCADE'});
 User.hasMany(Product)
+User.hasOne(Cart);
+Cart.belongsTo(User);
+// many to many relation cart-product
+Cart.belongsToMany(Product, {through: CartItem});
+Product.belongsToMany(Cart, {through: CartItem});
+
+
+
 // to automatically synchronize all models
 sequelize
     // .sync({ force: true}) // this will drop all tables and force new changes. Dont use it in production.
