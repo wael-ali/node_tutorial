@@ -20,6 +20,17 @@ app.set('views', 'views');
 
 // template engine
 // All Requests Middleware
+app.use((req, res, next) => {
+    User.findByPk(1)
+        .then(user => {
+            req.user = user;
+            next();
+        })
+        .catch(err => {
+            console.log(err);
+        })
+    ;
+})
 app.use(bodyParser.urlencoded({extended: false}));
 app.use(express.static(path.join(__dirname, 'public')));
 // Routes Middleware
@@ -32,9 +43,20 @@ Product.belongsTo(User, {constraints: true, onDelete: 'CASCADE'});
 User.hasMany(Product)
 // to automatically synchronize all models
 sequelize
-    .sync({ force: true})
+    // .sync({ force: true}) // this will drop all tables and force new changes. Dont use it in production.
+    .sync()
     .then((result) => {
         // console.log(result);
+        return User.findByPk(1);
+    })
+    .then(user => {
+        if (!user){
+            return User.create({name: 'Max', email: 'test@test.com'});
+        }
+        return user;
+    })
+    .then(user => {
+        console.log(user);
         app.listen(3000);
     })
     .catch(err => {
