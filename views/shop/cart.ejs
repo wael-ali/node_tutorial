@@ -6,20 +6,23 @@
     <%- include('../includes/navigation.ejs') %>
     <main>
         <% if (products.length > 0){%>
-        <ul>
-            <% for (product of products){%>
-                <li>
-                    <p><%= product.productData.title%> (<%= product.qty%>)</p>
-                    <form action="/delete-cart-item" method="post">
-                        <input type="hidden" name="productId" value="<%= product.productData.id%>">
-                        <button class="btn" type="submit">Remove  </button>
-                    </form>
-                </li>
+        <div class="cart-container">
+            <ul class="cart__item-list">
+                <% for (product of products){%>
+                    <li class="cart__item">
+                        <h2><%= product.title%></h2>
+                        <h2>Quantity: <%= product.cartItem.quantity%></h2>
+                        <form action="/delete-cart-item" method="post">
+                            <input type="hidden" name="productId" value="<%= product.id%>">
+                            <button class="btn" type="submit">Remove</button>
+                        </form>
+                    </li>
+                <% }%>
+            </ul>
+            <% }else {%>
+                <h1>No Products in Cart!</h1>
             <% }%>
-        </ul>
-        <% }else {%>
-            <h1>No Products in Cart!</h1>
-        <% }%>
+        </div>
     </main>
     </body>
 </html>

@@ -207,3 +207,37 @@ form {
 .centered {
   text-align: center;
 }
+/* Cart */
+.cart-container {
+  width: 100%;
+}
+.cart__item-list {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  /*align-items: center;*/
+  width: 100%;
+}
+.cart__item-list .cart__item:hover{
+  background-color: azure;
+}
+.cart__item-list .cart__item{
+  width: 80%;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  padding: 0 10px;
+  border-radius: 3px;
+  box-shadow: 5px 5px 5px #aaaaaa;
+  background-color: aliceblue;
+  margin-bottom: 10px;
+}
+.cart__item {
+  display: flex;
+  justify-content: space-between;
+}
+.cart__item form button{
+  color: red;
+  border: 1px red solid;
+  border-radius: 4px;
+}
