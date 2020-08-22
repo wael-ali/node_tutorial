@@ -9,10 +9,13 @@ const errorRoutes = require('./routes/error');
 
 const rootDir = require('./util/path');
 const sequelize = require('./util/database');
+// Models
 const Product = require('./models/product');
 const User = require('./models/user');
 const Cart = require('./models/cart');
 const CartItem = require('./models/cart-item');
+const Order = require('./models/order');
+const OrderItem = require('./models/order-item');
 
 
 const app = express();
@@ -40,14 +43,20 @@ app.use(adminRoutes);
 app.use(shopRoutes);
 // NOT FOUND PAGE
 app.use(errorRoutes);
+
 // Manage Relations between Models.
 Product.belongsTo(User, {constraints: true, onDelete: 'CASCADE'});
 User.hasMany(Product)
 User.hasOne(Cart);
 Cart.belongsTo(User);
-// many to many relation cart-product
+// Many-To-Many relation cart-product
 Cart.belongsToMany(Product, {through: CartItem});
 Product.belongsToMany(Cart, {through: CartItem});
+// One-To-Many Relationship. (user-order)
+Order.belongsTo(User);
+User.hasMany(Order)
+// Many-To-Many Relation (product-order)
+Order.belongsToMany(Product, { through: OrderItem });
 
 
 
