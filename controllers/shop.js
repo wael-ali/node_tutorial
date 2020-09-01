@@ -16,21 +16,22 @@ exports.getProducts = (req, res, next) => {
   ;
 };
 
-// exports.getProduct = (req, res, next) => {
-//     const prodId = req.params.productId;
-//     Product.findByPk(prodId)
-//         .then((prod) => {
-//             res.render('shop/product-details', {
-//                 product: prod,
-//                 pageTitle: prod.title,
-//                 path: '/products'
-//             });
-//         })
-//         .catch(err => {
-//             console.log(err);
-//         })
-//     ;
-// };
+exports.getProduct = (req, res, next) => {
+    const prodId = req.params.productId;
+
+    Product.findByID(prodId)
+        .then((prod) => {
+            res.render('shop/product-details', {
+                product: prod,
+                pageTitle: prod ? prod.title : 'Error',
+                path: '/products'
+            });
+        })
+        .catch(err => {
+            console.log(err);
+        })
+    ;
+};
 
 exports.getIndex = (req, res, next) => {
 
