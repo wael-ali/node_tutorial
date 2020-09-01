@@ -4,8 +4,8 @@ const express = require('express');
 const bodyParser = require('body-parser');
 // require routes
 const adminRoutes = require('./routes/admin');
-// const shopRoutes = require('./routes/shop');
-// const errorRoutes = require('./routes/error');
+const shopRoutes = require('./routes/shop');
+const errorRoutes = require('./routes/error');
 
 const mongoConnect  = require('./util/database').mogoConnect;
 
@@ -31,9 +31,9 @@ app.use(bodyParser.urlencoded({extended: false}));
 app.use(express.static(path.join(__dirname, 'public')));
 // // Routes Middleware
 app.use(adminRoutes);
-// app.use(shopRoutes);
+app.use(shopRoutes);
 // // NOT FOUND PAGE
-// app.use(errorRoutes);
+app.use(errorRoutes);
 
 mongoConnect(() => {
     app.listen(3000);
