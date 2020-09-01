@@ -26,7 +26,6 @@ app.use((req, res, next) => {
             console.log(err);
         })
     ;
-    next();
 })
 app.use(bodyParser.urlencoded({extended: false}));
 app.use(express.static(path.join(__dirname, 'public')));
