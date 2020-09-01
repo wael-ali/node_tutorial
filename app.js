@@ -7,7 +7,7 @@ const bodyParser = require('body-parser');
 // const shopRoutes = require('./routes/shop');
 // const errorRoutes = require('./routes/error');
 
-const mongoConnect = require('./util/database');
+const mongoConnect  = require('./util/database');
 
 const app = express();
 // Configrations settings.
@@ -35,7 +35,6 @@ app.use((req, res, next) => {
 // // NOT FOUND PAGE
 // app.use(errorRoutes);
 
-mongoConnect(client => {
-    console.log(client);
+mongoConnect(() => {
     app.listen(3000);
 })

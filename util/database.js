@@ -2,7 +2,8 @@
 const mongodb = require('mongodb');
 const MongoClient = mongodb.MongoClient;
 
-const url = 'mongodb+srv://node_toturial_1:tfO3QFaZHWuAKoJe@cluster0.q4mpc.mongodb.net/test?retryWrites=true&w=majority';
+const url = 'mongodb+srv://node_toturial_1:tfO3QFaZHWuAKoJe@cluster0.q4mpc.mongodb.net/shop?retryWrites=true&w=majority';
+let _db;
 
 const mongoConnect = (callback) => {
     MongoClient.connect(url, {
@@ -10,6 +11,7 @@ const mongoConnect = (callback) => {
         useNewUrlParser: true,
     })
         .then(client => {
+            _db = client.db();
             callback(client);
         })
         .catch(err => {
@@ -18,5 +20,13 @@ const mongoConnect = (callback) => {
     ;
 };
 
-module.exports = mongoConnect;
+const getDb = () => {
+    if (_db){
+        return _db;
+    }
+    throw 'No database found!';
+}
+
+exports.mogoConnect = mongoConnect;
+exports.getDb = getDb;
 

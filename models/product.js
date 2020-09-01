@@ -1,3 +1,5 @@
+const getDb = require('../util/database').getDb;
+
 class Product {
     imageUrl;
     title;
