@@ -3,11 +3,11 @@ const path = require('path');
 const express = require('express');
 const bodyParser = require('body-parser');
 // require routes
-// const adminRoutes = require('./routes/admin');
+const adminRoutes = require('./routes/admin');
 // const shopRoutes = require('./routes/shop');
 // const errorRoutes = require('./routes/error');
 
-const mongoConnect  = require('./util/database');
+const mongoConnect  = require('./util/database').mogoConnect;
 
 const app = express();
 // Configrations settings.
@@ -27,10 +27,10 @@ app.use((req, res, next) => {
     // ;
     next();
 })
-// app.use(bodyParser.urlencoded({extended: false}));
-// app.use(express.static(path.join(__dirname, 'public')));
+app.use(bodyParser.urlencoded({extended: false}));
+app.use(express.static(path.join(__dirname, 'public')));
 // // Routes Middleware
-// app.use(adminRoutes);
+app.use(adminRoutes);
 // app.use(shopRoutes);
 // // NOT FOUND PAGE
 // app.use(errorRoutes);
