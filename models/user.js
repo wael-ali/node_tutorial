@@ -27,7 +27,10 @@ class User {
              newQuantity = this.cart.items[cartProductIndex].quantity + 1;
              updatedCartItems[cartProductIndex].quantity = newQuantity;
          } else {
-             updatedCartItems.push({ productId: new ObjectId(product._id), quantity: newQuantity })
+             updatedCartItems.push({
+                 productId: new ObjectId(product._id),
+                 quantity: newQuantity
+             })
          }
 
          const updatedCart = {
@@ -60,6 +63,20 @@ class User {
                  });
             })
             ;
+    }
+
+    deleteCartItem(productId){
+        const db = getDb();
+        const updatedCartItems = this.cart.items.filter((item) => {
+            return item.productId.toString() !== productId.toString();
+        });
+        return db
+            .collection('users')
+            .updateOne(
+                { _id: new ObjectId(this._id) },
+                { $set: {cart: {items: updatedCartItems }} }
+            )
+        ;
     }
 
     static findByID(id){
