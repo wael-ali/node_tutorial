@@ -21,7 +21,7 @@ class User {
          //     return cp._id === product._id;
          // });
 
-         const updatedCart = {items: [{...product, quality: 1}]}
+         const updatedCart = {items: [{ productId: new ObjectId(product._id), quality: 1 }]}
          const db = getDb();
          return db.collection('users').updateOne(
              { _id: new ObjectId(this._id)},
