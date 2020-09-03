@@ -211,6 +211,7 @@ form {
 .cart-container {
   width: 100%;
 }
+.orders__list,
 .cart__item-list {
   display: flex;
   flex-wrap: wrap;
@@ -218,9 +219,11 @@ form {
   /*align-items: center;*/
   width: 100%;
 }
+.orders__list .order:hover,
 .cart__item-list .cart__item:hover{
   background-color: azure;
 }
+.orders__list .order,
 .cart__item-list .cart__item{
   width: 80%;
   display: flex;
@@ -239,5 +242,15 @@ form {
 .cart__item form button{
   color: red;
   border: 1px red solid;
+  border-radius: 4px;
+}
+
+/* Orders */
+
+.order__item{
+  width: 100%;
+  border: 1px solid green;
+  margin:  5px 5px;
+  /*padding: 5px;*/
   border-radius: 4px;
 }

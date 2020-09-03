@@ -83,20 +83,20 @@ exports.getCheckout = (req, res, next) => {
       path: '/checkout',
     });
 };
-// exports.getOrders = (req, res, next) => {
-//     req.user.getOrders({ include: ['products']})
-//         .then(orders => {
-//             res.render('shop/orders', {
-//               orders: orders,
-//               pageTitle: 'Your Orders',
-//               path: '/orders',
-//             });
-//         })
-//         .catch(err => {
-//             console.log(err);
-//         })
-//     ;
-// };
+exports.getOrders = (req, res, next) => {
+    req.user.getOrders()
+        .then(orders => {
+            res.render('shop/orders', {
+              orders: orders,
+              pageTitle: 'Your Orders',
+              path: '/orders',
+            });
+        })
+        .catch(err => {
+            console.log(err);
+        })
+    ;
+};
 exports.postDeleteCartItem = (req, res, next) => {
     const productId = req.body.productId;
     req.user.deleteCartItem(productId)

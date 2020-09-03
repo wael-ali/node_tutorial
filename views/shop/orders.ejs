@@ -8,20 +8,23 @@
     <% if (orders.length <= 0) {%>
         <h1>Nothing there!.</h1>
     <% }else {%>
-        <ul>
-        <% orders.forEach( order => {%>
-            <li>
-                <h1># <%= order.id %></h1>
-                <ul>
-                    <% order.products.forEach(item => { %>
-                    <li><%= item.title %> (<%= item.orderItem.quantity%>)</li>
-                    <% })%>
-                </ul>
-            </li>
-        <% }) %>
-        </ul>
+        <h1>All Orders (<%= orders.length %>)</h1>
+        <div class="order-container">
+            <ul class="orders__list">
+                <% for (order of orders){%>
+                    <li class="order">
+                        <h2># <%= order._id %></h2>
+                        <% for (item of order.items){%>
+                                <h3 class="order__item"><%= item.title%> (<%= item.quantity %>)</h3>
+                        <% } %>
+                    </li>
+                <% } %>
+            </ul>
+        </div>
     <% } %>
 </main>
+
+
 </body>
 
 </html>
