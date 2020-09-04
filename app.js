@@ -2,12 +2,12 @@ const path = require('path');
 
 const express = require('express');
 const bodyParser = require('body-parser');
+const mongoose = require('mongoose');
 // require routes
 const adminRoutes = require('./routes/admin');
 const shopRoutes = require('./routes/shop');
 const errorRoutes = require('./routes/error');
 
-const mongoConnect  = require('./util/database').mogoConnect;
 const User = require('./models/user');
 
 const app = express();
@@ -35,6 +35,13 @@ app.use(shopRoutes);
 // // NOT FOUND PAGE
 app.use(errorRoutes);
 
-mongoConnect(() => {
-    app.listen(3000);
-})
+const url = 'mongodb+srv://node_toturial_1:tfO3QFaZHWuAKoJe@cluster0.q4mpc.mongodb.net/shop?retryWrites=true&w=majority';
+mongoose
+    .connect(url)
+    .then((result) => {
+        app.listen(3000);
+    })
+    .catch(err => console.log(err))
+;
+
+
