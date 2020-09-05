@@ -8,7 +8,7 @@ const adminRoutes = require('./routes/admin');
 const shopRoutes = require('./routes/shop');
 const errorRoutes = require('./routes/error');
 
-// const User = require('./models/user');
+const User = require('./models/user');
 
 const app = express();
 // Configrations settings.
@@ -16,17 +16,17 @@ app.set('view engine', 'ejs');
 app.set('views', 'views');
 
 // All Requests Middleware
-// app.use((req, res, next) => {
-//     User.findByID('5f4e42046d64efc8f586399d')
-//         .then(user => {
-//             req.user = new User(user.username, user.email, user.cart, user._id);
-//             next();
-//         })
-//         .catch(err => {
-//             console.log(err);
-//         })
-//     ;
-// })
+app.use((req, res, next) => {
+    User.findById('5f525531ccde7334f0498b1a')
+        .then(user => {
+            req.user = new User(user.username, user.email, user.cart, user._id);
+            next();
+        })
+        .catch(err => {
+            console.log(err);
+        })
+    ;
+});
 app.use(bodyParser.urlencoded({extended: false}));
 app.use(express.static(path.join(__dirname, 'public')));
 // // Routes Middleware
@@ -39,6 +39,18 @@ const url = 'mongodb+srv://node_toturial_1:tfO3QFaZHWuAKoJe@cluster0.q4mpc.mongo
 mongoose
     .connect(url)
     .then((result) => {
+        User.findOne()
+            .then(user => {
+                if (!user){
+                    const user = new User({
+                        name: 'Max',
+                        email: 'max@example.com'
+                    });
+                    user.save();
+                }
+            })
+            .catch(err => console.log(err))
+        ;
         app.listen(3000);
     })
     .catch(err => console.log(err))
