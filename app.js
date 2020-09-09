@@ -7,6 +7,7 @@ const mongoose = require('mongoose');
 const adminRoutes = require('./routes/admin');
 const shopRoutes = require('./routes/shop');
 const errorRoutes = require('./routes/error');
+const authRouter = require('./routes/auth');
 
 const User = require('./models/user');
 
@@ -32,6 +33,7 @@ app.use(express.static(path.join(__dirname, 'public')));
 // // Routes Middleware
 app.use(adminRoutes);
 app.use(shopRoutes);
+app.use(authRouter);
 // // NOT FOUND PAGE
 app.use(errorRoutes);
 
