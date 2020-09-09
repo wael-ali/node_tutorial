@@ -17,9 +17,9 @@ app.set('views', 'views');
 
 // All Requests Middleware
 app.use((req, res, next) => {
-    User.findById('5f5366aea70a0e64fc20f05e')
+    User.findById('5f5867be1a6b426540579757')
         .then(user => {
-            req.user = new User(user.username, user.email, user.cart, user._id);
+            req.user = new User(user);
             next();
         })
         .catch(err => {
@@ -37,10 +37,11 @@ app.use(errorRoutes);
 
 const url = 'mongodb+srv://node_toturial_1:tfO3QFaZHWuAKoJe@cluster0.q4mpc.mongodb.net/shop?retryWrites=true&w=majority';
 mongoose
-    .connect(url)
+    .connect(url,  { useNewUrlParser: true,  useUnifiedTopology: true  } )
     .then((result) => {
         User.findOne()
             .then(user => {
+                console.log('mongose.connect::::::::::::',user);
                 if (!user){
                     const user = new User({
                         name: 'Max',
