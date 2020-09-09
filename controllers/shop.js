@@ -5,6 +5,7 @@ exports.getProducts = (req, res, next) => {
   Product.find()
       .then((products) => {
           res.render('shop/products-list', {
+              isAuthenticated: req.isAuthenticated,
               prods: products,
               pageTitle: 'All Products',
               path: '/products',
@@ -22,6 +23,7 @@ exports.getProduct = (req, res, next) => {
     Product.findById(prodId)
         .then((prod) => {
             res.render('shop/product-details', {
+                isAuthenticated: req.isAuthenticated,
                 product: prod,
                 pageTitle: prod ? prod.title : 'Error',
                 path: '/products'
@@ -38,6 +40,7 @@ exports.getIndex = (req, res, next) => {
     Product.find()
         .then((products) => {
             res.render('shop/index', {
+                isAuthenticated: req.isAuthenticated,
               prods: products,
               pageTitle: 'Shop index',
               path: '/',
@@ -55,6 +58,7 @@ exports.getCart = (req, res, next) => {
         .then(user => {
             products = user.cart.items;
             res.render('shop/cart', {
+                isAuthenticated: req.isAuthenticated,
               products: products,
               pageTitle: 'Your Cart',
               path: '/cart',
@@ -81,6 +85,7 @@ exports.postCart = (req, res, next) => {
 };
 exports.getCheckout = (req, res, next) => {
     res.render('shop/checkout', {
+        isAuthenticated: req.isAuthenticated,
       prods: [],
       pageTitle: 'Your Checkout',
       path: '/checkout',
@@ -91,6 +96,7 @@ exports.getOrders = (req, res, next) => {
         .then(orders => {
             console.log(orders);
             res.render('shop/orders', {
+                isAuthenticated: req.isAuthenticated,
               orders: orders,
               pageTitle: 'Your Orders',
               path: '/orders',
