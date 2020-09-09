@@ -3,6 +3,7 @@ const path = require('path');
 const express = require('express');
 const bodyParser = require('body-parser');
 const mongoose = require('mongoose');
+const session = require('express-session');
 // require routes
 const adminRoutes = require('./routes/admin');
 const shopRoutes = require('./routes/shop');
@@ -31,6 +32,13 @@ app.use((req, res, next) => {
 });
 app.use(bodyParser.urlencoded({extended: false}));
 app.use(express.static(path.join(__dirname, 'public')));
+app.use(
+    session({
+        secret: 'some secret', // used to hash the session
+        resave: false, // means the session will not be saved on every req/res but only if something changed in the session
+        saveUninitialized: false,
+    })
+);
 // // Routes Middleware
 app.use(adminRoutes);
 app.use(shopRoutes);
