@@ -14,8 +14,8 @@
                 <% for (order of orders){%>
                     <li class="order">
                         <h2># <%= order._id %></h2>
-                        <% for (item of order.items){%>
-                                <h3 class="order__item"><%= item.title%> (<%= item.quantity %>)</h3>
+                        <% for (item of order.products){%>
+                                <h3 class="order__item"><%= item.product.title%> (<%= item.quantity %>)</h3>
                         <% } %>
                     </li>
                 <% } %>
