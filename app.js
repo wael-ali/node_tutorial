@@ -21,6 +21,7 @@ app.use((req, res, next) => {
     User.findById('5f5867be1a6b426540579757')
         .then(user => {
             req.user = new User(user);
+            req.isAuthenticated = false;
             next();
         })
         .catch(err => {
