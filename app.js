@@ -25,18 +25,6 @@ app.set('view engine', 'ejs');
 app.set('views', 'views');
 
 // All Requests Middleware
-// app.use((req, res, next) => {
-//     User.findById('5f5867be1a6b426540579757')
-//         .then(user => {
-//             req.user = new User(user);
-//             req.isAuthenticated = false;
-//             next();
-//         })
-//         .catch(err => {
-//             console.log(err);
-//         })
-//     ;
-// });
 app.use(bodyParser.urlencoded({extended: false}));
 app.use(express.static(path.join(__dirname, 'public')));
 app.use(
@@ -47,6 +35,20 @@ app.use(
         store: store,
     })
 );
+app.use((req, res, next) => {
+    if (!req.session.user){
+        return next();
+    }
+    User.findById(req.session.user._id)
+        .then(user => {
+            req.user = user;
+            next();
+        })
+        .catch(err => {
+            console.log(err);
+        })
+    ;
+});
 // // Routes Middleware
 app.use(adminRoutes);
 app.use(shopRoutes);
