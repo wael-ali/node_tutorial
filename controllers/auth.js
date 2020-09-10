@@ -9,16 +9,38 @@ exports.getLogin = (req, res, next) => {
   })
 };
 exports.postLogin = (req, res, next) => {
-    User.findById('5f5867be1a6b426540579757')
+    const email = req.body.email;
+    const password = req.body.password;
+
+    console.log(email, password);
+
+    User.findOne({email: email})
         .then(user => {
-            req.session.user = user;
-            req.session.isLoggedIn = true;
-            // the redirect will be fired indepently from saving session => page will be rendered before
-            // the session is saved in db to prevent that in such cases we use the session.save(callback)
-            req.session.save(err => {
-                console.log(err);
-                res.redirect('/');
-            });
+            console.log(user);
+            if (!user){
+                return res.redirect('/login');
+            }
+            return bcrypt
+                .compare(password, user.password)
+                .then(doMatch => {
+                    console.log('do match', doMatch);
+                    if (doMatch){
+                        req.session.user = user;
+                        req.session.isLoggedIn = true;
+                        // the redirect will be fired indepently from saving session => page will be rendered before
+                        // the session is saved in db to prevent that in such cases we use the session.save(callback)
+                        return req.session.save(err => {
+                            console.log(err);
+                            res.redirect('/');
+                        });
+                    }
+                    return res.redirect('/login');
+                })
+                .catch(err => {
+                    console.log(err);
+                    return res.redirect('/login');
+                })
+            ;
         })
         .catch(err => {
             console.log(err);
