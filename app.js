@@ -25,18 +25,18 @@ app.set('view engine', 'ejs');
 app.set('views', 'views');
 
 // All Requests Middleware
-app.use((req, res, next) => {
-    User.findById('5f5867be1a6b426540579757')
-        .then(user => {
-            req.user = new User(user);
-            req.isAuthenticated = false;
-            next();
-        })
-        .catch(err => {
-            console.log(err);
-        })
-    ;
-});
+// app.use((req, res, next) => {
+//     User.findById('5f5867be1a6b426540579757')
+//         .then(user => {
+//             req.user = new User(user);
+//             req.isAuthenticated = false;
+//             next();
+//         })
+//         .catch(err => {
+//             console.log(err);
+//         })
+//     ;
+// });
 app.use(bodyParser.urlencoded({extended: false}));
 app.use(express.static(path.join(__dirname, 'public')));
 app.use(
