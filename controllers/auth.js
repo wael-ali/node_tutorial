@@ -12,7 +12,12 @@ exports.postLogin = (req, res, next) => {
         .then(user => {
             req.session.user = user;
             req.session.isLoggedIn = true;
-            res.redirect('/')
+            // the redirect will be fired indepently from saving session => page will be rendered before
+            // the session is saved in db to prevent that in such cases we use the session.save(callback)
+            req.session.save(err => {
+                console.log(err);
+                res.redirect('/');
+            });
         })
         .catch(err => {
             console.log(err);
