@@ -272,3 +272,16 @@ form {
   background: #ff959f;
   color: red;
 }
+
+
+@media (min-width: 768px) {
+  .main-header__nav {
+    display: flex;
+  }
+  #side-menu-toggle {
+    display: none;
+  }
+  .user-message {
+    width: 30rem;
+  }
+}
