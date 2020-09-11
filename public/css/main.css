@@ -256,3 +256,12 @@ form {
   padding: 5px;
   border-radius: 4px;
 }
+
+/* */
+
+.error {
+  background-color: #ff8677;
+  color: red;
+  padding: 10px;
+  border-radius: 3px;
+}
