@@ -258,10 +258,17 @@ form {
 }
 
 /* */
-
-.error {
-  background-color: #ff8677;
-  color: red;
-  padding: 10px;
+.user-message{
+  width: 90%;
+  margin: auto;
+  padding: 1rem;
+  border: 1px solid #1b77ff;
   border-radius: 3px;
+  background-color: #5db2ff;
+  text-align: center;
+}
+.user-message--error {
+  border-color: red;
+  background: #ff959f;
+  color: red;
 }
