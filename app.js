@@ -52,6 +52,12 @@ app.use((req, res, next) => {
         })
     ;
 });
+// Variables which are should be available in all views
+app.use((req, res, next) => {
+    res.locals.isAuthenticated = req.session.isLoggedIn;
+    res.locals.csrfToken = req.csrfToken();
+    next();
+});
 // // Routes Middleware
 app.use(adminRoutes);
 app.use(shopRoutes);
