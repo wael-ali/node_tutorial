@@ -2,8 +2,8 @@ const User = require('../models/user');
 const bcrypt = require('bcryptjs');
 
 exports.getLogin = (req, res, next) => {
-    const msg = req.flash('error');
-    console.log('---------flash----------', msg);
+    let msg = req.flash('error');
+    msg = msg.length > 0 ? msg[0] : null;
   res.render('auth/login', {
       path: '/login',
       pageTitle: 'Login',
