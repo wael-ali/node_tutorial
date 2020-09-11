@@ -33,6 +33,7 @@ exports.postLogin = (req, res, next) => {
                             res.redirect('/');
                         });
                     }
+                    req.flash('error', 'Wrong Email/Password combination!!');
                     return res.redirect('/login');
                 })
                 .catch(err => {
@@ -55,9 +56,12 @@ exports.postLogout = (req, res, next) => {
 };
 
 exports.getSignup = (req, res, next) => {
+    let msg = req.flash('error');
+    msg = msg.length > 0 ? msg[0] : null;
     res.render('auth/signup', {
         path: '/signup',
         pageTitle: 'Signup',
+        error: msg,
     })
 };
 exports.postSignup = (req, res, next) => {
@@ -68,6 +72,7 @@ exports.postSignup = (req, res, next) => {
     User.findOne({email: email})
         .then(userDoc => {
             if (userDoc){
+                req.flash('error', 'E-mail Exists already, please choose a different one .');
                 return res.redirect('/signup');
             }
             return bcrypt
