@@ -1,6 +1,7 @@
 const bcrypt = require('bcryptjs');
 const nodemailer = require('nodemailer');
 const sendgridTransport = require('nodemailer-sendgrid-transport');
+const crypto = require('crypto');
 
 const User = require('../models/user');
 
@@ -118,4 +119,41 @@ exports.getResetPassword = (req, res, next) => {
         pageTitle: 'Reset Password',
         error: msg
     });
+};
+
+exports.postReset = (req, res, next) => {
+    const email = req.body.email;
+    crypto.randomBytes(32, (err, buffer) => {
+        if (err){
+            console.log(err);
+            return res.redirect('/reset-password');
+        }
+        const token = buffer.toString('hex'); // the buffer contains hexadecimals this option can convert the into ascii
+        User.findOne({ email: email})
+            .then(user => {
+                if (!user){
+                    req.flash('error', 'No account for this email');
+                    return res.redirect('/reset-password');
+                }
+                user.resetToken = token;
+                user.resetTokenExpiration = Date.now() + 3600000;
+                return user.save();
+            })
+            .then(result => {
+                res.redirect('/');
+                transporter.sendMail({
+                    to: user.email,
+                    from: 'shop@node-tutorial.com',
+                    subject: 'Reset Password',
+                    html: `
+                    <p>You requested a password reset</p>
+                    <p>Click this <<a href="http://localthost:3000/reset/${token}">link</a> to set a new password</p>
+                    `
+                });
+            })
+            .catch(err => {
+                console.log(err);
+            })
+        ;
+    })
 };
