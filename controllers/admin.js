@@ -89,7 +89,7 @@ exports.postEditProduct = (req, res, next) => {
     ;
 };
 exports.getProducts = (req, res, next) => {
-    Product.find()
+    Product.find({ userId: req.user._id })
         // .select('title price -_id') // to choose which fields want to return from a schema
         // .populate('userId', 'name') // to fetch related documents and wich field to return from them
         .then((products) => {
