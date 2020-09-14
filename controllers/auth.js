@@ -147,7 +147,7 @@ exports.postReset = (req, res, next) => {
                     subject: 'Reset Password',
                     html: `
                     <p>You requested a password reset</p>
-                    <p>Click this <a href='http://localthost:3000/reset/${token}'>link</a> to set a new password</p>
+                    <p>Click this <a href='http://localhost:3000/reset/${token}'>link</a> to set a new password</p>
                     `
                 });
             })
@@ -156,4 +156,28 @@ exports.postReset = (req, res, next) => {
             })
         ;
     })
+};
+
+exports.getNewPassword = (req, res, next) => {
+
+    const token = req.params.token;
+    User.findOne({ resetToken: token, resetTokenExpiration: {$gt: Date.now()} })
+        .then(user => {
+            let msg = req.flash('error');
+            msg = msg.length > 0 ? msg[0] : null;
+
+            res.render('auth/new-password', {
+                path: '/new-password',
+                pageTitle: 'Update Password',
+                error: msg,
+                userId: user._id.toString()
+            })
+        })
+        .catch(err => {
+            console.log(err);
+        })
+    ;
+
+
+
 };
