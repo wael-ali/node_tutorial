@@ -42,7 +42,38 @@ router.post(
     adminController.postAddProduct
 );
 router.get('/admin/edit-product/:productId',isAuth,  adminController.getEditProduct);
-router.post('/admin/edit-product', isAuth, adminController.postEditProduct);
+router.post(
+    '/admin/edit-product',
+    isAuth,
+    [
+        body('title', 'At least 4 charecters, only numbers and letters')
+            .trim()
+            .isString()
+            .isLength({ min: 4 })
+        ,
+        body('imageUrl')
+            .trim()
+            .isURL()
+            .withMessage('Enter a valid image URL')
+        ,
+        body('price')
+            .trim()
+            .isDecimal()
+            .withMessage('Decimal value please')
+            .custom(value => {
+                if (value < 0){
+                    throw new Error('Negative Values are not valid');
+                }
+                return true;
+            })
+        ,
+        body('description', 'At least 10 charecters, only numbers and letters')
+            .trim()
+            .isLength({ min: 10 })
+        ,
+    ],
+    adminController.postEditProduct
+);
 router.post('/admin/delete-product/:productId', isAuth, adminController.postDeleteProduct);
 router.get('/admin/products', isAuth, adminController.getProducts);
 

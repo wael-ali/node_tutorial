@@ -6,7 +6,11 @@
 <body>
     <%- include('../includes/navigation.ejs') %>
     <main>
-        <form class="product-form" action="/product" method="POST" novalidate>
+        <form
+                class="product-form"
+                action="<% if (editing) { %>/admin/edit-product  <% } else { %>/product<% }%>"
+                method="POST"
+        >
             <div class="form-control">
                 <label for="title">Title</label>
                 <input
@@ -73,6 +77,9 @@
             </div>
 
             <input type="hidden" name="_csrf" value="<%= csrfToken %>">
+            <% if (editing) { %>
+                <input type="hidden" name="productId" value="<%= oldInput._id %>">
+            <% } %>
             <button class="btn" type="submit">
                 <% if (editing) { %>
                     Update Product

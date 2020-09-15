@@ -28,15 +28,14 @@ exports.getEditProduct = (req, res, next) => {
                 return res.redirect('/');
             }
             res.render(
-                'admin/edit-product',
+                'admin/add-product',
                 {
                     pageTitle: 'Edit Product',
                     path: '/admin/edit-product',
-                    formsCSS: true,
                     activeAddProduct: true,
-                    productCSS: true,
                     editing: editMode,
-                    product: product,
+                    oldInput: product,
+                    validationErrors: []
                 }
             );
         })
@@ -83,13 +82,34 @@ exports.postAddProduct = (req, res, next) => {
     ;
 };
 exports.postEditProduct = (req, res, next) => {
-    const id        = req.body.productId;
-    const title     = req.body.title;
-    const imageUrl  = req.body.imageUrl;
-    const price     = req.body.price;
-    const description = req.body.description;
+    const errors = validationResult(req);
+        const _id = req.body.productId;
+        const title = req.body.title;
+        const imageUrl = req.body.imageUrl;
+        const price = req.body.price;
+        const description = req.body.description;
 
-    Product.findById(id).then(product => {
+    if (!errors.isEmpty()){
+        return res.render(
+            'admin/add-product',
+            {
+                pageTitle: 'Edit Product',
+                path: '/admin/edit-product',
+                activeAddProduct: true,
+                editing: true,
+                oldInput: {
+                    _id: _id,
+                    title: title,
+                    imageUrl: imageUrl,
+                    price: price,
+                    description: description,
+                },
+                validationErrors: errors.array()
+            }
+        );
+    }
+
+    Product.findById(_id).then(product => {
         if (product.userId.toString() !== req.user._id.toString()){
             return res.redirect('/');
         }
