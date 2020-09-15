@@ -84,7 +84,7 @@ exports.postSignup = (req, res, next) => {
         return res.status(422).render('auth/signup', {
             path: '/signup',
             pageTitle: 'Signup',
-            error: errors.array(),
+            error: errors.array()[0].msg,
         });
     }
     User.findOne({email: email})
