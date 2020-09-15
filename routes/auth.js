@@ -1,5 +1,6 @@
 const express = require('express');
 const { check, body, cookie } = require('express-validator');
+const bcrypt = require('bcryptjs')
 
 const authController = require('../controllers/auth');
 const User = require('../models/user');
@@ -7,7 +8,19 @@ const User = require('../models/user');
 const router = express.Router();
 
 router.get('/login', authController.getLogin);
-router.post('/login', authController.postLogin);
+router.post('/login',
+    [
+        body('email')
+            .isEmail()
+            .withMessage('Enter A valid Email please')
+        ,
+        body('password')
+            .isLength({ min: 5 })
+            .withMessage('Password has to be vlid.')
+        ,
+    ],
+    authController.postLogin
+);
 router.post('/logout', authController.postLogout);
 router.get('/signup', authController.getSignup);
 router.post(
