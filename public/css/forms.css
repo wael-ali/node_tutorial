@@ -21,3 +21,12 @@
 .form-control input:focus {
   outline-color: #00695c;
 }
+
+.input-error-message {
+  color: red;
+  font-size: small;
+}
+
+.form-control input.invalid {
+  border-color: red;
+}
