@@ -2,7 +2,7 @@ const bcrypt = require('bcryptjs');
 const nodemailer = require('nodemailer');
 const sendgridTransport = require('nodemailer-sendgrid-transport');
 const crypto = require('crypto');
-const { validationResult } = require('express-validator/check');
+const { validationResult } = require('express-validator');
 
 const User = require('../models/user');
 
@@ -87,23 +87,15 @@ exports.postSignup = (req, res, next) => {
             error: errors.array()[0].msg,
         });
     }
-    User.findOne({email: email})
-        .then(userDoc => {
-            if (userDoc){
-                req.flash('error', 'E-mail Exists already, please choose a different one .');
-                return res.redirect('/signup');
-            }
-            return bcrypt
-                .hash(password, 12)
-                .then(hashedPassword => {
-                    const user = new User({
-                        email: email,
-                        password: hashedPassword,
-                        cart: { items: [] }
-                    });
-                    return user.save();
-                })
-            ;
+     bcrypt
+        .hash(password, 12)
+        .then(hashedPassword => {
+            const user = new User({
+                email: email,
+                password: hashedPassword,
+                cart: { items: [] }
+            });
+            return user.save();
         })
         .then(result => {
             res.redirect('/login');
