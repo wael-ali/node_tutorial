@@ -13,10 +13,12 @@ router.post('/login',
         body('email')
             .isEmail()
             .withMessage('Enter A valid Email please')
+            .normalizeEmail()
         ,
         body('password')
             .isLength({ min: 5 })
             .withMessage('Password has to be vlid.')
+            .trim()
         ,
     ],
     authController.postLogin
@@ -41,12 +43,16 @@ router.post(
                         }
                     })
                 ;
-            }),
+            })
+            .normalizeEmail()
+        ,
         body('password', 'Please enter a password with only numbers and text at least 5 characters')
+            .trim()
             .isLength({min: 5})
             .isAlphanumeric()
         ,
         body('confirmPassword')
+            .trim()
             .custom((value, { req }) => {
                 if (value !== req.body.password){
                     throw new Error('Passwords have to match!!')
