@@ -6,6 +6,12 @@
 <body>
     <%- include('../includes/navigation.ejs') %>
     <main>
+        <% if (errorMessage) { %>
+            <div class="user-message user-message--error">
+                <%= errorMessage %>
+            </div>
+        <% } %>
+
         <form
                 class="product-form"
                 action="<% if (editing) { %>/admin/edit-product  <% } else { %>/product<% }%>"

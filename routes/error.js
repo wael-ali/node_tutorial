@@ -4,6 +4,7 @@ const notFoundController = require('../controllers/error');
 
 const router = express.Router();
 
+router.use('/500',notFoundController.get500);
 router.use(notFoundController.get404);
 
 module.exports =  router;

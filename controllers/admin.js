@@ -1,4 +1,5 @@
 const { validationResult } = require('express-validator');
+const mongoose = require('mongoose');
 
 const Product = require('../models/product');
 
@@ -12,6 +13,7 @@ exports.getAddProduct = (req, res, next) => {
             activeAddProduct: true,
             productCSS: true,
             editing: false,
+            errorMessage: null
         }
     );
 };
@@ -35,7 +37,8 @@ exports.getEditProduct = (req, res, next) => {
                     activeAddProduct: true,
                     editing: editMode,
                     oldInput: product,
-                    validationErrors: []
+                    validationErrors: [],
+                    errorMessage: null
                 }
             );
         })
@@ -62,10 +65,12 @@ exports.postAddProduct = (req, res, next) => {
                     price: req.body.price,
                     description: req.body.description,
                 },
+                errorMessage: null
             }
         );
     }
     const product = new Product({
+        _id: new mongoose.Types.ObjectId('5f6119df8c2f8077bc6bf14f'),
         title: req.body.title,
         imageUrl: req.body.imageUrl,
         price: req.body.price,
@@ -77,7 +82,19 @@ exports.postAddProduct = (req, res, next) => {
             res.redirect('/admin/products')
         })
         .catch(err => {
-            console.log(err);
+            console.log('Error Add Product');
+            // return res.render(
+            //     'admin/add-product',
+            //     {
+            //         pageTitle: 'Add Product',
+            //         path: '/admin/add-product',
+            //         editing: false,
+            //         validationErrors: [],
+            //         oldInput: product,
+            //         errorMessage: 'Database operation failed, please try again.'
+            //     }
+            // );
+            res.redirect('/500');
         })
     ;
 };
@@ -104,7 +121,8 @@ exports.postEditProduct = (req, res, next) => {
                     price: price,
                     description: description,
                 },
-                validationErrors: errors.array()
+                validationErrors: errors.array(),
+                errorMessage: null
             }
         );
     }

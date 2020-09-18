@@ -7,3 +7,13 @@ exports.get404 = (req, res, next) => {
     }
   );
 };
+
+exports.get500 = (req, res, next) => {
+  return res.status(500).render(
+    '500',
+    {
+        pageTitle: '500 Error',
+        path: '/500',
+    }
+  );
+};
