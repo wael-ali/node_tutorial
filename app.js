@@ -14,6 +14,7 @@ const errorRoutes = require('./routes/error');
 const authRouter = require('./routes/auth');
 
 const User = require('./models/user');
+const errorHandler = require('./errors/handler');
 
 const MONGODB_URI = 'mongodb+srv://node_toturial_1:tfO3QFaZHWuAKoJe@cluster0.q4mpc.mongodb.net/shop?retryWrites=true&w=majority';
 
@@ -40,12 +41,21 @@ app.use(
 );
 app.use(csrfProtection);
 app.use(flash())
+// Variables which are should be available in all views
+app.use((req, res, next) => {
+    res.locals.isAuthenticated = req.session.isLoggedIn;
+    res.locals.csrfToken = req.csrfToken();
+    next();
+});
+// ...
 app.use((req, res, next) => {
     if (!req.session.user){
         return next();
     }
+    // throw new Error('Dummy sync....');
     User.findById(req.session.user._id)
         .then(user => {
+            // throw new Error('Dummy Async....');
             if (!user){
                 return next();
             }
@@ -53,17 +63,13 @@ app.use((req, res, next) => {
             next();
         })
         .catch(err => {
-            console.log(err);
-            throw new Error(err);
+            // throw new Error(err); // does not work alone in promises, callbacks (express detect it only if in next function)
+            // errorHandler(err, next);
+            next(err);
         })
     ;
 });
-// Variables which are should be available in all views
-app.use((req, res, next) => {
-    res.locals.isAuthenticated = req.session.isLoggedIn;
-    res.locals.csrfToken = req.csrfToken();
-    next();
-});
+
 // // Routes Middleware
 app.use(adminRoutes);
 app.use(shopRoutes);
@@ -72,7 +78,14 @@ app.use(authRouter);
 app.use(errorRoutes);
 // Handling errors
 app.use((error, req, res, next) => {
-    res.redirect('/500');
+    // res.redirect('/500'); // this leads to infinite loop
+    res.status(500).render(
+        '500',
+        {
+            pageTitle: '500 Error',
+            path: '/500',
+        }
+    );
 })
 
 mongoose
