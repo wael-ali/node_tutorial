@@ -1,5 +1,6 @@
 const Product = require('../models/product');
 const Order = require('../models/order');
+const errorHandler = require('../errors/handler');
 
 exports.getProducts = (req, res, next) => {
   Product.find()
@@ -11,7 +12,7 @@ exports.getProducts = (req, res, next) => {
           });
       })
       .catch(err => {
-          console.log(err);
+          errorHandler(err, next);
       })
   ;
 };
@@ -28,7 +29,7 @@ exports.getProduct = (req, res, next) => {
             });
         })
         .catch(err => {
-            console.log(err);
+            errorHandler(err, next);
         })
     ;
 };
@@ -44,7 +45,7 @@ exports.getIndex = (req, res, next) => {
             });
         })
         .catch(err => {
-            console.log(err);
+            errorHandler(err, next);
         })
     ;
 };
@@ -62,7 +63,7 @@ exports.getCart = (req, res, next) => {
             });
         })
         .catch(err => {
-            console.log(err);
+            errorHandler(err, next);
         })
     ;
 };
@@ -76,7 +77,7 @@ exports.postCart = (req, res, next) => {
             res.redirect('/cart');
         })
         .catch(err => {
-            console.log(err);
+            errorHandler(err, next);
         })
     ;
 };
@@ -98,7 +99,7 @@ exports.getOrders = (req, res, next) => {
             });
         })
         .catch(err => {
-            console.log(err);
+            errorHandler(err, next);
         })
     ;
 };
@@ -109,7 +110,7 @@ exports.postDeleteCartItem = (req, res, next) => {
             res.redirect('/cart');
         })
         .catch(err => {
-            console.log(err);
+            errorHandler(err, next);
         })
     ;
 };
@@ -137,6 +138,6 @@ exports.postOrder = (req, res, next) => {
         .then(() => {
             res.redirect('/orders');
         })
-        .catch(err => console.log(err))
+        .catch(err => errorHandler(err, next))
     ;
 };

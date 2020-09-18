@@ -5,6 +5,7 @@ const crypto = require('crypto');
 const { validationResult } = require('express-validator');
 
 const User = require('../models/user');
+const errorHandler = require('../errors/handler');
 
 const transporter = nodemailer.createTransport(sendgridTransport({
     auth: {
@@ -78,7 +79,7 @@ exports.postLogin = (req, res, next) => {
             ;
         })
         .catch(err => {
-            console.log(err);
+            errorHandler(err, next);
         })
     ;
 };
@@ -142,7 +143,7 @@ exports.postSignup = (req, res, next) => {
                 html: '<h1>You successfully signed up!!</h1>'
             });
         })
-        .catch(err => console.log(err))
+        .catch(err => errorHandler(err, next))
     ;
 };
 
@@ -188,7 +189,7 @@ exports.postReset = (req, res, next) => {
                 });
             })
             .catch(err => {
-                console.log(err);
+                errorHandler(err, next);
             })
         ;
     })
@@ -210,7 +211,7 @@ exports.getNewPassword = (req, res, next) => {
             })
         })
         .catch(err => {
-            console.log(err);
+            errorHandler(err, next);
         })
     ;
 };
@@ -239,7 +240,7 @@ exports.postNewPassword = (req, res, next) => {
             res.redirect('/login');
         })
         .catch(err => {
-            console.log(err);
+            errorHandler(err, next);
         })
     ;
 };
