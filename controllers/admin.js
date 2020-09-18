@@ -54,7 +54,7 @@ exports.postAddProduct = (req, res, next) => {
     const errors = validationResult(req);
 
     if (!errors.isEmpty()){
-        return res.render(
+        return res.status(422).render(
             'admin/add-product',
             {
                 pageTitle: 'Add Product',
@@ -79,7 +79,8 @@ exports.postAddProduct = (req, res, next) => {
         description: req.body.description,
         userId: req.session.user._id
     });
-    product.save()
+    product
+        .save()
         .then((result) => {
             res.redirect('/admin/products')
         })
@@ -113,7 +114,7 @@ exports.postEditProduct = (req, res, next) => {
         const description = req.body.description;
 
     if (!errors.isEmpty()){
-        return res.render(
+        return res.status(422).render(
             'admin/add-product',
             {
                 pageTitle: 'Edit Product',
