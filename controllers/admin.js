@@ -2,6 +2,7 @@ const { validationResult } = require('express-validator');
 const mongoose = require('mongoose');
 
 const Product = require('../models/product');
+const errorHandler = require('../errors/handler');
 
 exports.getAddProduct = (req, res, next) => {
     res.render(
@@ -26,6 +27,7 @@ exports.getEditProduct = (req, res, next) => {
     const prodId = req.params.productId;
     Product.findById(prodId)
         .then(product => {
+            // throw new Error('Dummy Error');
             if (!product){
                 return res.redirect('/');
             }
@@ -43,7 +45,7 @@ exports.getEditProduct = (req, res, next) => {
             );
         })
         .catch(err => {
-            console.log(err);
+            errorHandler(err, next);
         })
     ;
 };
@@ -94,7 +96,11 @@ exports.postAddProduct = (req, res, next) => {
             //         errorMessage: 'Database operation failed, please try again.'
             //     }
             // );
-            res.redirect('/500');
+            // res.redirect('/500');
+            // const error = new Error(err);
+            // error.httpStatusCode = 500;
+            // next(error)
+            errorHandler(err, next);
         })
     ;
 };
@@ -143,7 +149,7 @@ exports.postEditProduct = (req, res, next) => {
         ;
         })
         .catch(err => {
-            console.log(err);
+            errorHandler(err, next);
         })
     ;
 };
@@ -159,7 +165,7 @@ exports.getProducts = (req, res, next) => {
             });
         })
         .catch(err => {
-            console.log(err);
+            errorHandler(err, next);
         })
     ;
 };
@@ -167,10 +173,11 @@ exports.postDeleteProduct = (req, res, next) => {
     const prodId = req.body.productId;
     Product.deleteOne({ _id: prodId, userId: req.user._id })
         .then(() => {
+            // throw new Error('Dummy: Deleting a product failed!!');
             res.redirect('/admin/products');
         })
         .catch(err => {
-            console.log(err);
+            errorHandler(err, next);
         })
     ;
 };

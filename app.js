@@ -68,8 +68,12 @@ app.use((req, res, next) => {
 app.use(adminRoutes);
 app.use(shopRoutes);
 app.use(authRouter);
-// // NOT FOUND PAGE
+// // 404, 500 pages
 app.use(errorRoutes);
+// Handling errors
+app.use((error, req, res, next) => {
+    res.redirect('/500');
+})
 
 mongoose
     .connect(MONGODB_URI,  { useNewUrlParser: true,  useUnifiedTopology: true  } )
